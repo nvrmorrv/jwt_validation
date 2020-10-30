@@ -1,0 +1,23 @@
+thorntail:
+  microprofile:
+    jwt:
+      default-missing-method-permissions-deny-access: false
+      token:
+        issued-by: https://dev-4305394.okta.com/oauth2/default
+        signer-pub-key-location: https://dev-4305394.okta.com/oauth2/default/v1/keys
+  security:
+    security-domains:
+      thorntail-cmd-client:
+        jaspi-authentication:
+          login-module-stacks:
+            test-login-module-stack:
+              login-modules:
+              - login-module: jwt-login-module
+                code: org.wildfly.swarm.microprofile.jwtauth.deployment.auth.jaas.JWTLoginModule
+                flag: required
+          auth-modules:
+            http:
+              code: org.wildfly.extension.undertow.security.jaspi.modules.HTTPSchemeServerAuthModule
+              module: org.wildfly.extension.undertow
+              flag: required
+              login-module-stack-ref: test-login-module-stack
